@@ -1,15 +1,26 @@
-import { React, useState } from 'react'
+import { React, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Input, Button, Form } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import Password from 'antd/es/input/Password';
 
-const Login = ({ addNew }) => {
+// contexts
+import { Context as LoginContext } from 'contexts/loginContext'
+
+const Login = () => {
+    const navigate = useNavigate()
+    const { authenticatedUser } = useContext(LoginContext);
+
+    useEffect(() => {
+      if (authenticatedUser.length != 0) {
+        navigate("/");
+      }
+    }, [authenticatedUser]);
+
     const handleSubmit = (values) => {
       const content = values.content
       const author = values.author
-      const info = values.info
-
-      
+      const info = values.info 
     }
 
     const handleErrorSubmit = (errorInfo) => {

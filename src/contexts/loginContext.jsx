@@ -9,7 +9,7 @@ const Context = React.createContext(null)
     
 const ProviderWrapper = (props) => {
 
-    const [ authenticatedUser, setAuthenticatedUser] = useState(null)
+    const [ authenticatedUser, setAuthenticatedUser] = useState([])
     const [ userIsEmployee, setUserIsEmployee] = useState([])
 
     const hook = () => {

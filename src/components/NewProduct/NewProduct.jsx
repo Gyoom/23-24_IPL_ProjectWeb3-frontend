@@ -1,8 +1,21 @@
-import { React, useState } from 'react'
+import { React, useEffect, useContext } from 'react'
+import { useNavigate} from 'react-router-dom'
 import { Input, Button, Form } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+// contexts
+import { Context as LoginContext } from 'contexts/loginContext'
 
 const NewProduct = () => {
+    const navigate = useNavigate()
+    const { authenticatedUser } = useContext(LoginContext);
+
+    useEffect(() => {
+      if (authenticatedUser.length == 0) {
+        navigate("/login");
+      }
+    }, [authenticatedUser]);
+
+
     const handleSubmit = (values) => {
       const content = values.content
       const author = values.author
@@ -15,51 +28,54 @@ const NewProduct = () => {
     }
   
     return (
-      <Form
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600 }}
-        onFinish={handleSubmit}
-        onFinishFailed={handleErrorSubmit}
-        autoComplete="off"
-      >
-        <Form.Item
-          label="Content"
-          name="content"
-          placeholder="my anecdote ..."
-          rules={[{ required: true, message: 'Please input a content' }]}
+      <>
+        <Form
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          style={{ maxWidth: 600 }}
+          onFinish={handleSubmit}
+          onFinishFailed={handleErrorSubmit}
+          autoComplete="off"
         >
-            <Input />
-        </Form.Item>
+          <Form.Item
+            label="Content"
+            name="content"
+            placeholder="my anecdote ..."
+            rules={[{ required: true, message: 'Please input a content' }]}
+          >
+              <Input />
+          </Form.Item>
 
-        <Form.Item
-          label="Author"
-          name="author"
-          rules={[{ required: true, message: 'Please input a author' }]}
-        >
-            <Input />
-        </Form.Item>
+          <Form.Item
+            label="Author"
+            name="author"
+            rules={[{ required: true, message: 'Please input a author' }]}
+          >
+              <Input />
+          </Form.Item>
 
-        <Form.Item
-          label="Info"
-          name="info"
-          rules={[{ required: false }]}
-        >
-            <Input />
-        </Form.Item>
+          <Form.Item
+            label="Info"
+            name="info"
+            rules={[{ required: false }]}
+          >
+              <Input />
+          </Form.Item>
 
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-    </Form.Item>
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+      </Form.Item>
 
-      </Form>
+        </Form>
+      </>
+      
       // <div>
       //   <h2>create a new anecdote</h2>
       //   <form>

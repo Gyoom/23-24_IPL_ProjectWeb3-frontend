@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-require('dotenv').config()
-const baseUrl = process.env.BACKEND_URL + "product"
+const baseUrl = "http://localhost:3001/api/products"
 
 const getAll = () => {
   const request = axios.get(baseUrl)
