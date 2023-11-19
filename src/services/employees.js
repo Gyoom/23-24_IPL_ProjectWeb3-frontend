@@ -8,7 +8,7 @@ const getAll = () => {
 }
 
 const getByEmail = (email) => {
-  const request = axios.delete(`${baseUrl}/email/${email}`)
+  const request = axios.get(`${baseUrl}/email/${email}`)
   return request.then(response => response.data)
 }
 

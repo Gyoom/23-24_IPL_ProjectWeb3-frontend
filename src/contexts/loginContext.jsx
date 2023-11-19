@@ -18,8 +18,8 @@ const ProviderWrapper = (props) => {
 
     useEffect(hook, [])
 
-
     const login = (email, mdp, isEmployee) => {
+        console.log(email)
         var user;
         if (isEmployee)
             user = employeeService.getByEmail(email);
@@ -27,18 +27,16 @@ const ProviderWrapper = (props) => {
             user = customerService.getByEmail(email);
 
         if (!user)
-            return "email inconnu" 
+            return false
         else if (user.mdp != mdp)
-            return "mdp  incorrect"
+            return false;
         else
         {
             setAuthenticatedUser(user)
             setUserIsEmployee(isEmployee)
-
+            return true;
             // TODO save in localhost
-        } 
-
-        return redirect("/")   
+        }  
     }
 
     const register = (email, mdp, isEmployee) => {

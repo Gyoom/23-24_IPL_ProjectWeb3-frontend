@@ -1,15 +1,14 @@
 import { React, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Input, Button, Form } from 'antd';
+import { Input, Button, Form, Checkbox } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import Password from 'antd/es/input/Password';
 
 // contexts
 import { Context as LoginContext } from 'contexts/loginContext'
 
 const Login = () => {
     const navigate = useNavigate()
-    const { authenticatedUser } = useContext(LoginContext);
+    const { authenticatedUser, login } = useContext(LoginContext);
 
     useEffect(() => {
       if (authenticatedUser.length != 0) {
@@ -18,9 +17,7 @@ const Login = () => {
     }, [authenticatedUser]);
 
     const handleSubmit = (values) => {
-      const content = values.content
-      const author = values.author
-      const info = values.info 
+      login(values.username, values.password, values.isEmployee)
     }
 
     const handleErrorSubmit = (errorInfo) => {
@@ -46,11 +43,27 @@ const Login = () => {
         </Form.Item>
 
         <Form.Item
-          label="mdp"
-          name="mdp"
-          rules={[{ required: true, message: 'Please input a password' }]}
+          label="Password"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!',
+            },
+          ]}
         >
-            <Password />
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          name="isEmployee"
+          valuePropName="checked"
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Checkbox>Admin</Checkbox>
         </Form.Item>
 
         <Form.Item
