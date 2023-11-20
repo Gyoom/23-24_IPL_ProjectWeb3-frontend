@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 // contexts
-import { Context as LoginContext } from 'contexts/loginContext'
+import { Context as LoginContext } from 'contexts/usersContext'
 
-const Product = ({ anecdote }) => {
+const Product = ({ product }) => {
     const navigate = useNavigate()
     const { authenticatedUser } = useContext(LoginContext);
 
@@ -14,7 +14,11 @@ const Product = ({ anecdote }) => {
     }, [authenticatedUser]);
 
     return (
-         <p>{anecdote.content} BY {anecdote.author} </p>
+         <>
+          <h1>{product.productName}</h1>
+          <p>{product.description}</p>
+          <p>{product.unitPrice} euro</p> 
+        </>
     )
 }
 

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 // contexts
-import { Context as LoginContext } from 'contexts/loginContext'
+import { Context as LoginContext } from 'contexts/usersContext'
 
 const Command = () => {
     const navigate = useNavigate()

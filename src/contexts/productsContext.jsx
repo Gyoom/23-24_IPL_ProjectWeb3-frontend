@@ -20,7 +20,7 @@ const ProviderWrapper = (props) => {
 
     useEffect(hook, [])
 
-    const createProduct = (product) => 
+    const createNewProduct = (product) => 
     {
         const existingProduct = persons.find(p => p.name == product.name)
         if (existingProduct)
@@ -52,7 +52,7 @@ const ProviderWrapper = (props) => {
     const exposedValue = {
         productsList,
         productsCommand,
-        createProduct,
+        createNewProduct,
         addProductToCommand,
         removeProductToCommand
     }

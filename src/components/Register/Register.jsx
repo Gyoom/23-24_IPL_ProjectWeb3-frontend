@@ -5,24 +5,20 @@ import { Input, Button, Form } from 'antd';
 import { Context as UsersContext } from 'contexts/usersContext'
 import { Context as ProductsContext } from 'contexts/productsContext'
 
-const NewProduct = () => {
+const Register = () => {
     const navigate = useNavigate()
-    const { authenticatedUser, userIsEmployee } = useContext(UsersContext)
-    const { createNewProduct } = useContext(ProductsContext)
+    const { authenticatedUser, register } = useContext(UsersContext)
 
     useEffect(() => {
       if (Object.keys(authenticatedUser).length === 0) {
         navigate("/login");
       }
-      // if (!userIsEmployee) {
-      //   navigate("/");
-      // }
 
     }, [authenticatedUser]);
 
 
     const handleSubmit = (values) => {
-        createNewProduct(values)
+        register(values)
 
     }
 
@@ -41,7 +37,7 @@ const NewProduct = () => {
           autoComplete="off"
         >
           <Form.Item
-            label="Name"
+            label="Firstname"
             name="name"
             placeholder="my product ..."
             rules={[{ required: true, message: 'Please input a name ...' }]}
@@ -50,17 +46,46 @@ const NewProduct = () => {
           </Form.Item>
 
           <Form.Item
-            label="Description"
-            name="description"
-            rules={[{ required: false }]}
+            label="Lastname"
+            name="name"
+            placeholder="my product ..."
+            rules={[{ required: true, message: 'Please input a name ...' }]}
           >
               <Input />
           </Form.Item>
 
           <Form.Item
-            label="Price"
-            name="price"
-            rules={[{ required: true, message: 'Please input a price' }]}
+            label="Email"
+            name="name"
+            placeholder="my product ..."
+            rules={[{ required: true, message: 'Please input a name ...' }]}
+          >
+              <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="name"
+            placeholder="my product ..."
+            rules={[{ required: true, message: 'Please input a name ...' }]}
+          >
+              <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Confirm Password"
+            name="name"
+            placeholder="my product ..."
+            rules={[{ required: true, message: 'Please input a name ...' }]}
+          >
+              <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Role"
+            name="name"
+            placeholder="my product ..."
+            rules={[{ required: true, message: 'Please input a name ...' }]}
           >
               <Input />
           </Form.Item>
@@ -72,7 +97,7 @@ const NewProduct = () => {
             }}
           >
           <Button type="primary" htmlType="submit">
-            Create
+            Register
           </Button>
       </Form.Item>
 
@@ -81,4 +106,4 @@ const NewProduct = () => {
     ) 
 }
 
-export default NewProduct
+export default Register

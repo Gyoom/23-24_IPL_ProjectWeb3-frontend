@@ -1,17 +1,14 @@
 import App from "./App"
-import { ProviderWrapper as LoginProviderWrapper } from "contexts/loginContext"
-import { ProviderWrapper as CustomersProviderWrapper } from "contexts/customersContext"
+import { ProviderWrapper as UsersProviderWrapper } from "contexts/usersContext"
 import { ProviderWrapper as ProductsProviderWrapper } from "contexts/productsContext"
 
 const AppLoader = () => {
     return (
-        <CustomersProviderWrapper>
             <ProductsProviderWrapper>
-                <LoginProviderWrapper>
+                <UsersProviderWrapper>
                     <App />
-                </LoginProviderWrapper>
+                </UsersProviderWrapper>
             </ProductsProviderWrapper>
-        </CustomersProviderWrapper>
     )
 }
 
