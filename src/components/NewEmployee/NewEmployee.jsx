@@ -3,22 +3,33 @@ import { useNavigate} from 'react-router-dom'
 import { Input, Button, Form } from 'antd';
 // contexts
 import { Context as UsersContext } from 'contexts/usersContext'
-import { Context as ProductsContext } from 'contexts/productsContext'
 
-const Register = () => {
+const NewEmployee = () => {
     const navigate = useNavigate()
-    const { authenticatedUser, register } = useContext(UsersContext)
+    const { authenticatedUser, userIsEmployee, registerEmployee } = useContext(UsersContext)
 
     useEffect(() => {
       if (Object.keys(authenticatedUser).length === 0) {
         navigate("/login");
       }
-
+      if (!userIsEmployee) {
+        navigate("/");
+      }
     }, [authenticatedUser]);
 
 
     const handleSubmit = (values) => {
-        register(values)
+        if (values.password !== values.confirmPassword)
+          return false
+
+        var result = registerEmployee(
+          values.firstname, 
+          values.lastname, 
+          values.email, 
+          values.password, 
+          values.companyName !== undefined ? values.companyName : null
+          )
+          console.log(result)
 
     }
 
@@ -38,54 +49,63 @@ const Register = () => {
         >
           <Form.Item
             label="Firstname"
-            name="name"
+            name="firstname"
             placeholder="my product ..."
-            rules={[{ required: true, message: 'Please input a name ...' }]}
+            rules={[{ required: true, message: 'Please input a firstname ...' }]}
           >
               <Input />
           </Form.Item>
 
           <Form.Item
             label="Lastname"
-            name="name"
+            name="lastname"
             placeholder="my product ..."
-            rules={[{ required: true, message: 'Please input a name ...' }]}
+            rules={[{ required: true, message: 'Please input a lastname ...' }]}
           >
               <Input />
           </Form.Item>
 
           <Form.Item
             label="Email"
-            name="name"
+            name="email"
             placeholder="my product ..."
-            rules={[{ required: true, message: 'Please input a name ...' }]}
+            rules={[{ required: true, message: 'Please input a email ...' }]}
           >
               <Input />
           </Form.Item>
 
           <Form.Item
             label="Password"
-            name="name"
+            name="password"
             placeholder="my product ..."
-            rules={[{ required: true, message: 'Please input a name ...' }]}
+            rules={[{ required: true, message: 'Please input a password ...' }]}
           >
-              <Input />
+              <Input.Password />
           </Form.Item>
 
           <Form.Item
             label="Confirm Password"
-            name="name"
+            name="confirmPassword"
             placeholder="my product ..."
-            rules={[{ required: true, message: 'Please input a name ...' }]}
+            rules={[{ required: true, message: 'Please confirm your password ...' }]}
+          >
+              <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            label="Role"
+            name="role"
+            placeholder="my product ..."
+            rules={[{ required: false }]}
           >
               <Input />
           </Form.Item>
 
           <Form.Item
-            label="Role"
-            name="name"
+            label="managerId"
+            name="Manager Id"
             placeholder="my product ..."
-            rules={[{ required: true, message: 'Please input a name ...' }]}
+            rules={[{ required: false }]}
           >
               <Input />
           </Form.Item>
@@ -106,4 +126,4 @@ const Register = () => {
     ) 
 }
 
-export default Register
+export default NewEmployee

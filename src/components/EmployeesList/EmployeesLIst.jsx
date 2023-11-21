@@ -13,17 +13,16 @@ const EmployeesList = () => {
       if (Object.keys(authenticatedUser).length === 0) {
         navigate("/login");
       }
-      // if (!userIsEmployee) {
-      //   navigate("/");
-      // }
+      if (!userIsEmployee) {
+        navigate("/");
+      }
     }, [authenticatedUser]);
-
 
     return (
       <div>
         <List
           bordered
-          header={<p>Our Employees</p>}
+          header={<p style={{fontWeight:"bold", fontSize:17}}>Our Employees :</p>}
           dataSource={EmployeesList}
           renderItem={(item) => (
             <>

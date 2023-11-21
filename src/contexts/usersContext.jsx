@@ -9,8 +9,12 @@ const Context = React.createContext(null)
     
 const ProviderWrapper = (props) => {
 
-    const [ authenticatedUser, setAuthenticatedUser] = useState(JSON.parse(localStorage.getItem("authenticatedUser")))
-    const [ userIsEmployee, setUserIsEmployee] = useState(JSON.parse(localStorage.getItem("userIsEmployee")))
+    const [ authenticatedUser, setAuthenticatedUser] = useState(
+        JSON.parse(localStorage.getItem("authenticatedUser")) !== null ?
+        JSON.parse(localStorage.getItem("authenticatedUser")) : [])
+    const [ userIsEmployee, setUserIsEmployee] = useState(
+        JSON.parse(localStorage.getItem("userIsEmployee"))!== null ?
+        JSON.parse(localStorage.getItem("userIsEmployee")) : false)
 
     const [ customersList, setCustomersList] = useState([])
     const [ EmployeesList, setEmployeesList] = useState([])
@@ -61,26 +65,67 @@ const ProviderWrapper = (props) => {
 
     }
 
-    const register = (email, mdp, isEmployee) => {
-        var user;
-        if (isEmployee)
-            user = employeeService.getByEmail(email);
-        else
-            user = customerService.getByEmail(email);
+    const registerCustomer = async (firstname, lastname, email, password, companyName) => {
+        var customerExist = true;
 
-        if (!user)
-            return "email inconnu" 
-        else if (user.mdp != mdp)
-            return "mdp  incorrect"
+        await customerService.getByEmail(email)
+            .catch(error => {
+                if (error.response.status == 404)
+                    customerExist = false
+            })
+
+        if (customerExist)
+            return "email déjà utilisé" 
         else
         {
-            setAuthenticatedUser(user)
-            setUserIsEmployee(isEmployee)
-
-            // TODO save in localhost
+            let newCustomer = {
+                email: email,
+                companyName: companyName != null ? companyName : "",
+                firstname: firstname,
+                lastname: lastname,
+                password: password
+            }
+            await customerService
+                .create(newCustomer)
+                .catch(error => {
+                    console.log(error)
+                })
         } 
 
-        return redirect("/")   
+        return login(email, password, false)  
+     
+    }
+
+    const registerEmployee = async (firstname, lastname, email, password, role, managerId) => {
+        var employeeExist = true;
+
+        await employeeService.getByEmail(email)
+            .catch(error => {
+                if (error.response.status == 404)
+                    employeeExist = false
+            })
+
+        if (employeeExist)
+            return "email déjà utilisé" 
+        else
+        {
+            let newEmployee = {
+                email: email,
+                firstname: firstname,
+                lastname: lastname,
+                password: password,
+                role : role ? role : "USER",
+                managerId : managerId ? managerId : null
+            }
+            await employeeService
+                .create(newEmployee)
+                .catch(error => {
+                    console.log(error)
+                })
+        } 
+
+        return login(email, password, true) 
+     
     }
 
     const logout = () => {
@@ -88,6 +133,7 @@ const ProviderWrapper = (props) => {
         setUserIsEmployee(false)
         localStorage.setItem("authenticatedUser", JSON.stringify([]))
         localStorage.setItem("userIsEmployee", JSON.stringify(false))
+        localStorage.setItem("productsToOrder", JSON.stringify([]))
         return redirect("/")
     }
 
@@ -98,7 +144,8 @@ const ProviderWrapper = (props) => {
         customersList,
         EmployeesList,
         login,
-        register,
+        registerCustomer,
+        registerEmployee,
         logout
 
     }

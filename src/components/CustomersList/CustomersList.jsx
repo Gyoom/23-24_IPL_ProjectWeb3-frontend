@@ -13,9 +13,9 @@ const CustomersList = () => {
       if (Object.keys(authenticatedUser).length === 0) {
         navigate("/login");
       }
-      // if (!userIsEmployee) {
-      //   navigate("/");
-      // }
+      if (!userIsEmployee) {
+        navigate("/");
+      }
     }, [authenticatedUser]);
 
 
@@ -23,7 +23,7 @@ const CustomersList = () => {
       <div>
         <List
           bordered
-          header={<p>Registered Customers</p>}
+          header={<p style={{fontWeight:"bold", fontSize:17}}>Registered Customers :</p>}
           dataSource={customersList}
           renderItem={(item) => (
             <>

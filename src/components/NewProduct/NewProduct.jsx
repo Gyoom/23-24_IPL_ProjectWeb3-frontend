@@ -14,9 +14,9 @@ const NewProduct = () => {
       if (Object.keys(authenticatedUser).length === 0) {
         navigate("/login");
       }
-      // if (!userIsEmployee) {
-      //   navigate("/");
-      // }
+      if (!userIsEmployee) {
+        navigate("/");
+      }
 
     }, [authenticatedUser]);
 

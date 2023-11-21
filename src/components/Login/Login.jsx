@@ -47,7 +47,7 @@ const Login = () => {
           autoComplete="off"
         >
           <Form.Item
-            label="email"
+            label="Email"
             name="email"
             placeholder="..."
             rules={[{ required: true, message: 'Please input a login' }]}
@@ -76,7 +76,7 @@ const Login = () => {
               span: 16,
             }}
           >
-            <Checkbox>As admin</Checkbox>
+            <Checkbox>As Employee</Checkbox>
           </Form.Item>
 
           <Form.Item

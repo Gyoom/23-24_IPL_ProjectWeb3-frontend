@@ -10,10 +10,11 @@ import Login from 'components/Login/Login'
 // contexts
 import { Context as LoginContext } from 'contexts/usersContext'
 import { Context as ProductContext } from 'contexts/productsContext'
-import Command from 'components/Command/Command'
+import Order from 'components/Order/Order'
 import CustomersList from 'components/CustomersList/CustomersList'
 import EmployeesList from 'components/EmployeesList/EmployeesLIst'
-import Register from 'components/Register/Register'
+import RegisterCustomer from 'components/RegisterCustomer/RegisterCustomer'
+import NewEmployee from 'components/NewEmployee/NewEmployee'
 
 const { Header, Footer, Content } = Layout;
 
@@ -36,7 +37,7 @@ const footerStyle = {
 const App = () => {
 
   const navigate = useNavigate()
-  const { authenticatedUser, logout } = useContext(LoginContext)
+  const { authenticatedUser, userIsEmployee, logout } = useContext(LoginContext)
   const { productsList } = useContext(ProductContext)
 
   const padding = {
@@ -54,22 +55,16 @@ const App = () => {
       <Header style={headerStyle}>
           <h1 style={{height:10}}>E-Products</h1>
           <div>
-            { Object.keys(authenticatedUser).length > 0 ? 
-                <>
-                  <Link style={padding} to={'/'}>Products</Link>  
-                  <Link style={padding} to={'/newProduct'}>New Products</Link> 
-                  <Link style={padding} to={'/order'}>Order</Link>  
-                  <Link style={padding} to={'/customers'}>Customers</Link>  
-                  <Link style={padding} to={'/employees'}>Employees</Link>  
-                  <Link style={padding} to={'/logout'} onClick={() => logout()}>{ authenticatedUser.firstname + " " +  authenticatedUser.lastname} logout</Link>
-                </> 
-                : "" }
-            { Object.keys(authenticatedUser).length === 0 ? 
-                <>
-                  <Link style={padding} to={'/login'}>Login</Link>
-                  <Link style={padding} to={'/register'}>Register</Link>
-                </>
-                : "" }
+              { Object.keys(authenticatedUser).length > 0 ? <Link style={padding} to={'/'}>Products</Link> : "" }
+              { Object.keys(authenticatedUser).length > 0 && userIsEmployee ? <Link style={padding} to={'/newProduct'}>New Products</Link> : "" }
+              { Object.keys(authenticatedUser).length > 0 && !userIsEmployee ? <Link style={padding} to={'/order'}>Order</Link> : "" }
+              { Object.keys(authenticatedUser).length > 0 && userIsEmployee ? <Link style={padding} to={'/customers'}>Customers</Link> : "" }
+              { Object.keys(authenticatedUser).length > 0 && userIsEmployee ? <Link style={padding} to={'/employees'}>Employees</Link> : "" }
+              { Object.keys(authenticatedUser).length > 0 && userIsEmployee ? <Link style={padding} to={'/newEmployee'}>NewEmployee</Link> : "" }
+              
+              { Object.keys(authenticatedUser).length > 0 ? <Link style={padding} to={'/logout'} onClick={() => logout()}>{ authenticatedUser.firstname + " " +  authenticatedUser.lastname} logout</Link> : "" }
+              { Object.keys(authenticatedUser).length === 0 ? <Link style={padding} to={'/login'}>Login</Link> : "" }
+              { Object.keys(authenticatedUser).length === 0 ? <Link style={padding} to={'/register'}>Register</Link> : "" }
 
           </div>
       </Header>
@@ -77,13 +72,14 @@ const App = () => {
           <Routes>
             <Route path="/" element={<ProductsList />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<RegisterCustomer />} />
             <Route path="/logout" element={<Login />} />
             <Route path="/newProduct" element={<NewProduct />} />
             <Route path="/products/:id" element={<Product product={product}/>} />
-            <Route path="/order" element={<Command />} />
+            <Route path="/order" element={<Order />} />
             <Route path="/customers" element={<CustomersList />} />
             <Route path="/employees" element={<EmployeesList />} />
+            <Route path="/newEmployee" element={<NewEmployee />} />
           </Routes>
       </Content>
       <Footer style={footerStyle}><FooterPage /></Footer>
